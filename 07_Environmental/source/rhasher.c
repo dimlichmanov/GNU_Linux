@@ -4,8 +4,12 @@
 #include "rhash.h" /* LibRHash interface */
 #include <string.h>
 #include "ctype.h"
+#ifdef GET
 #include "newline_get.h"
-
+#endif
+#ifdef READ
+#include "newline_read.h"
+#endif
 //Using some copy-paste from rhash documentation code
 
 int main(int argc, char *argv[]) {
