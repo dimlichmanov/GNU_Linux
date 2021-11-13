@@ -13,7 +13,7 @@
 //Using some copy-paste from rhash documentation code
 
 int main(int argc, char *argv[]) {
-    const char *filepath = "test_file.txt";
+    const char *filepath = "in.txt";
     unsigned char digest[64];
     char output[130];
     char *token = NULL;
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
 
     rhash_library_init(); /* initialize static data */
 
-    fprintf(stderr, "> ");
+//    fprintf(stderr, "> ");
     while ((nread = newline(&line, &len, stdin)) != -1) {
         token = strtok(line, " ");
         int hash_mode = -1;
@@ -44,9 +44,9 @@ int main(int argc, char *argv[]) {
 
         int hash_base;
         if (isupper(token[0])) {
-            hash_base = RHPR_HEX | RHPR_UPPERCASE;
+            hash_base = RHPR_HEX;
         } else {
-            hash_base = RHPR_BASE32 | RHPR_UPPERCASE;
+            hash_base = RHPR_BASE32;
         }
 
         token = strtok(NULL, "\n");
@@ -67,8 +67,8 @@ int main(int argc, char *argv[]) {
 
         rhash_print_bytes(output, digest, rhash_get_digest_size(hash_mode), hash_base);
 
-        printf("%s = %s\n", rhash_get_name(hash_mode), output);
-        fprintf(stderr, "> ");
+        printf("%s\n",output);
+        //fprintf(stderr, "> ");
     }
     return 0;
 }

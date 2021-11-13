@@ -9,6 +9,7 @@ include_directories(headers/)
 find_library(RHASH
         NAMES rhash
         HINTS ${RHASH_PATH}
+        REQUIRED
         )
 
 include_directories(${RHASH_PATH})
@@ -31,3 +32,17 @@ else()
     target_link_libraries(rhasher ${RHASH} newline_read)
     target_compile_definitions(rhasher PRIVATE READ=1)
 endif()
+
+enable_testing()
+
+add_test(NAME test_sha1
+        COMMAND sh -c "sha1sum in.txt | head -n1 | awk '{print $1;}' > out_util.txt && ./rhasher < in.txt > out_app.txt && cmp out_util.txt out_app.txt"
+        )
+
+add_test(NAME test_md5
+        COMMAND sh -c "md5sum in_5.txt | head -n1 | awk '{print $1;}' > out_util.txt && ./rhasher < in_5.txt > out_app.txt && cmp out_util.txt out_app.txt"
+        )
+
+add_custom_target(clean-cmake-files
+        COMMAND sh -c "rm -r build/"
+        )
